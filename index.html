@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calorie & Deficit Tracker</title>
+
+  <!-- Chart.js (for the weekly chart) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <h1>Calorie & Deficit Tracker</h1>
+      <div class="top-controls">
+        <button id="themeToggle" class="icon-btn">🌙</button>
+        <button id="exportCsv" class="small-btn">Export CSV</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Left column: inputs & summary -->
+      <section class="card">
+        <h2>Daily Goal & BMR</h2>
+        <div class="row">
+          <label>Daily Calorie Goal (kcal)</label>
+          <input id="calorieGoal" type="number" placeholder="e.g. 2000" />
+          <button id="saveGoal" class="primary-btn">Save Goal</button>
+        </div>
+
+        <hr/>
+
+        <h3>BMR & TDEE Calculator</h3>
+        <div class="form-grid">
+          <div>
+            <label>Age</label>
+            <input id="age" type="number" min="0" placeholder="Years" />
+          </div>
+          <div>
+            <label>Sex</label>
+            <select id="sex">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label>Weight (kg)</label>
+            <input id="weight" type="number" min="0" placeholder="kg" />
+          </div>
+          <div>
+            <label>Height (cm)</label>
+            <input id="height" type="number" min="0" placeholder="cm" />
+          </div>
+          <div class="full">
+            <label>Activity level</label>
+            <select id="activity">
+              <option value="1.2">Sedentary (little/no exercise)</option>
+              <option value="1.375">Light (1-3 days/week)</option>
+              <option value="1.55">Moderate (3-5 days/week)</option>
+              <option value="1.725">Active (6-7 days/week)</option>
+              <option value="1.9">Very active (physical job)</option>
+            </select>
+          </div>
+          <div class="full action-row">
+            <button id="calcBmr" class="primary-btn">Calculate BMR & Set Goal</button>
+            <button id="clearBmr" class="small-btn">Clear</button>
+          </div>
+        </div>
+
+        <div class="meta">
+          <p>BMR: <strong id="bmrDisplay">—</strong> kcal/day</p>
+          <p>TDEE (est): <strong id="tdeeDisplay">—</strong> kcal/day</p>
+        </div>
+      </section>
+
+      <!-- Middle column: add food & list -->
+      <section class="card">
+        <h2>Add Food Entry</h2>
+        <div class="row">
+          <input id="foodName" type="text" placeholder="Food name (e.g. Banana)" />
+          <input id="foodCalories" type="number" placeholder="Calories (kcal)" />
+          <select id="mealType">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snack">Snack</option>
+          </select>
+        </div>
+
+        <div class="row action-row">
+          <button id="addEntry" class="primary-btn">Add Entry</button>
+          <button id="addQuick100" class="small-btn">+100 kcal</button>
+        </div>
+
+        <hr/>
+
+        <h3>Today's Entries</h3>
+        <ul id="entriesList" class="entries"></ul>
+
+        <div class="row action-row">
+          <button id="clearDay" class="danger-btn">Clear Today's Data</button>
+          <button id="resetAll" class="small-btn">Reset All Data</button>
+        </div>
+      </section>
+
+      <!-- Right column: summary, progress, graph -->
+      <section class="card">
+        <h2>Today's Summary</h2>
+
+        <div class="summary-grid">
+          <div class="stat">
+            <div class="stat-label">Total Consumed</div>
+            <div class="stat-value" id="totalCalories">0</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Goal</div>
+            <div class="stat-value" id="goalDisplay">0</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Deficit</div>
+            <div class="stat-value" id="deficitDisplay">0</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span id="progressPercent">0%</span>
+            <span id="progressBarText">of daily goal</span>
+          </div>
+          <div class="progress">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <hr/>
+
+        <h3>Weekly Overview (last 7 days)</h3>
+        <canvas id="weeklyChart" height="160"></canvas>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built with ❤️ — Save data is stored locally in your browser.</p>
+    </footer>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
